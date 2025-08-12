@@ -35,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) ->
-                //tab.setText(categories[position].name())
-                tab.setIcon(R.drawable.caipirinha)
+                tab.setIcon(categories[position].getImageId())
         ).attach();
     }
 }

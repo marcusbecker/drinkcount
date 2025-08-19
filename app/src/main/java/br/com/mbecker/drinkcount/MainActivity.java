@@ -1,6 +1,7 @@
 package br.com.mbecker.drinkcount;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -37,5 +38,12 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) ->
                 tab.setIcon(categories[position].getImageId())
         ).attach();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

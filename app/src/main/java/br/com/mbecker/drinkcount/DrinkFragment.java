@@ -1,7 +1,5 @@
 package br.com.mbecker.drinkcount;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ public class DrinkFragment extends Fragment {
     private static final String ARG_CATEGORY = "category";
     private int counter = 0;
     private DrinkCategory category;
-    private TextView nameText;
     private TextView counterText;
 
     public static DrinkFragment newInstance(DrinkCategory category) {
@@ -31,20 +28,18 @@ public class DrinkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_drink, container, false);
-        nameText = view.findViewById(R.id.nameText);
+        TextView nameText = view.findViewById(R.id.nameText);
         counterText = view.findViewById(R.id.counterText);
 
         FloatingActionButton fab = view.findViewById(R.id.incrementButton);
 
-        // Identifica a categoria e carrega contador salvo
         category = DrinkCategory.valueOf(getArguments().getString(ARG_CATEGORY));
-        counter = loadCounter(); // Carrega contador salvo
+        counter = loadCounter();
         nameText.setText(String.valueOf(category));
         counterText.setText(String.valueOf(counter));
 
-        // Ao clicar, incrementa e salva
         fab.setOnClickListener(v -> {
-            counter++;
+            ++counter;
             counterText.setText(String.valueOf(counter));
             saveCounter(counter);
         });
@@ -52,15 +47,16 @@ public class DrinkFragment extends Fragment {
         return view;
     }
 
+    public void resetCounter() {
+        counter = 0;
+        counterText.setText(String.valueOf(counter));
+    }
+
     private void saveCounter(int value) {
-        SharedPreferences prefs = requireActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("counter_" + category.name(), value);
-        editor.apply();
+        DrinkUtil.saveCounter(value, category.name(), requireActivity());
     }
 
     private int loadCounter() {
-        SharedPreferences prefs = requireActivity().getPreferences(Context.MODE_PRIVATE);
-        return prefs.getInt("counter_" + category.name(), 0);
+        return DrinkUtil.loadCounter(category.name(), requireActivity());
     }
 }

@@ -15,9 +15,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
         android:layout_margin="16dp"
-        android:contentDescription="Incrementar"
-        android:src="@android:drawable/ic_menu_add" />
+        android:backgroundTint="@color/fab_color"
+        android:contentDescription="@string/lbl_increment"
+        android:src="@drawable/ic_chopp_pixel_64x64" />
 
     <TextView
         android:id="@+id/nameText"

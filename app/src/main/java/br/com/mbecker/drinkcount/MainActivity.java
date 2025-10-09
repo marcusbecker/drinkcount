@@ -1,8 +1,11 @@
 package br.com.mbecker.drinkcount;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowInsets;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +27,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getWindow().getInsetsController().hide(WindowInsets.Type.navigationBars());
+        } else {
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+
+        }
+
         create();
     }
 
@@ -55,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+
     public void resetCountMenuClick(MenuItem item) {
         int temp = viewPager.getCurrentItem();
         DrinkUtil.saveCounter(0, categories[temp].name(), this);
